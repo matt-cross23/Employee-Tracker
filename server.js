@@ -37,8 +37,8 @@ const startQuestions = [
 const addDepartment = [
   {
     type: "input",
-    message: "What is the id of the role?",
-    name: "roleId",
+    message: "What is the id of the department?",
+    name: "deptId",
   },
   {
     type: "input",
@@ -109,17 +109,24 @@ function menuPrompt() {
       case "View All Employees":
         db.query("SELECT * FROM employee", function (err, results) {
           console.table(results);
+          console.log("________________")
+          inquirer.prompt(startQuestions);
         });
+        
         break;
       case "View All Roles":
         db.query("SELECT * FROM role", function (err, results) {
           console.table(results);
+          inquirer.prompt(startQuestions);
         });
+        
         break;
       case "View All Departments":
         db.query("SELECT * FROM departments;", function (err, results) {
           console.table(results);
+          inquirer.prompt(startQuestions);
         });
+        
         break;
       case "Add Employee":
         inquirer.prompt(addEmployee).then((answers) => {
@@ -138,25 +145,30 @@ function menuPrompt() {
               return;
             }
             console.log("success");
+            inquirer.prompt(startQuestions);
           });
         });
+        
         break;
       case "Add Department":
         inquirer.prompt(addDepartment).then((answers) => {
-          const sql = `INSERT INTO departments(id, name) 
+          const sqlDept = `INSERT INTO departments (id, name) 
             Values (?)`;
           const params = [[answers.deptId], [answers.deptName]];
-          db.query(sql, [params], (err, result) => {
+          db.query(sqlDept, [params], (err, result) => {
             if (err) {
               console.log(err);
               return;
             }
             console.log("success");
+            inquirer.prompt(startQuestions);
           });
         });
+        
+        break;
       case "Add Role":
         inquirer.prompt(addRole).then((answers) => {
-          const sql = `INSERT INTO role(id, title, salary, department_id) 
+          const sqlRole = `INSERT INTO role (id, title, salary, department_id) 
             Values (?)`;
           const params = [
             [answers.roleId],
@@ -164,24 +176,26 @@ function menuPrompt() {
             [answers.roleSalary],
             [answers.roleDept],
           ];
-          db.query(sql, [params], (err, result) => {
+          db.query(sqlRole, [params], (err, result) => {
             if (err) {
               console.log(err);
               return;
             }
             console.log("success");
+            inquirer.prompt(startQuestions);
           });
         });
-        // Update Employee Role`
-      //   case "Update Employee Role":
-      //       inquirer.prompt(updateEmployee).then((answers) =>{
-      //     updateData = {}
-      //       updateEmployees(answers);
-      //  break;
+        
+        break;
+        case "Update Employee Role":
+            inquirer.prompt(updateEmployee).then((answers) =>{
+      
+            });
+       break;
 
       // });
-      default:
-        console.log("Thanks for using the database!");
+      // case "Quit":
+      //   console.log("Thanks for using the database!");
     }
   });
 }
