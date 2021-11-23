@@ -35,25 +35,23 @@ const startQuestions = [
   },
 ];
 const addDepartment = [
-    {
-
-        type: "input",
-        message: "What is the id of the role?",
-        name: "roleId",
-      },
   {
-
+    type: "input",
+    message: "What is the id of the role?",
+    name: "roleId",
+  },
+  {
     type: "input",
     message: "What is the name of the department?",
     name: "deptName",
-  }
+  },
 ];
 const addRole = [
-    {
-        type: "input",
-        message: "What's the ID for the role?",
-        name: "roleId"
-      },
+  {
+    type: "input",
+    message: "What's the ID for the role?",
+    name: "roleId",
+  },
   {
     type: "input",
     message: "What is the name of the role?",
@@ -67,12 +65,11 @@ const addRole = [
   {
     type: "input",
     message: "Which department does the role belong to?",
-    name: "roleDept"
-  }
+    name: "roleDept",
+  },
 ];
 const addEmployee = [
-
-    {
+  {
     type: "input",
     message: "What is the employee's first name?",
     name: "employeeFirst",
@@ -127,46 +124,55 @@ function menuPrompt() {
       case "Add Employee":
         inquirer.prompt(addEmployee).then((answers) => {
           console.log(answers);
-            const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) 
+          const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) 
             Values (?)`;
-            const params =[[answers.employeeFirst], [answers.employeeLast], [answers.employeeRole], [answers.employeeManager]];
-          db.query(sql, [params], (err, result) =>{
+          const params = [
+            [answers.employeeFirst],
+            [answers.employeeLast],
+            [answers.employeeRole],
+            [answers.employeeManager],
+          ];
+          db.query(sql, [params], (err, result) => {
             if (err) {
-                console.log(err);
-                return;
-              }
-              console.log('success')
-              });
-            
-    });
+              console.log(err);
+              return;
+            }
+            console.log("success");
+          });
+        });
         break;
-        case "Add Department":
-        inquirer.prompt(addDepartment).then((answers) =>{
-            const sql = `INSERT INTO departments(id, name) 
+      case "Add Department":
+        inquirer.prompt(addDepartment).then((answers) => {
+          const sql = `INSERT INTO departments(id, name) 
             Values (?)`;
-            const params =[[answers.deptId], [answers.deptName]];
-          db.query(sql, [params], (err, result) =>{
+          const params = [[answers.deptId], [answers.deptName]];
+          db.query(sql, [params], (err, result) => {
             if (err) {
-                console.log(err);
-                return;
-              }
-              console.log('success')
-              });
-
-        })
-        case "Add Role":
-        inquirer.prompt(addRole).then((answers) =>{
-            const sql = `INSERT INTO role(id, title, salary, department_id) 
+              console.log(err);
+              return;
+            }
+            console.log("success");
+          });
+        });
+      case "Add Role":
+        inquirer.prompt(addRole).then((answers) => {
+          const sql = `INSERT INTO role(id, title, salary, department_id) 
             Values (?)`;
-            const params =[[answers.roleId], [answers.roleName], [answers.roleSalary], [answers.roleDept]];
-          db.query(sql, [params], (err, result) =>{
+          const params = [
+            [answers.roleId],
+            [answers.roleName],
+            [answers.roleSalary],
+            [answers.roleDept],
+          ];
+          db.query(sql, [params], (err, result) => {
             if (err) {
-                console.log(err);
-                return;
-              }
-              console.log('success')
-              });
-        })
+              console.log(err);
+              return;
+            }
+            console.log("success");
+          });
+        });
+        // Update Employee Role`
       //   case "Update Employee Role":
       //       inquirer.prompt(updateEmployee).then((answers) =>{
       //     updateData = {}
@@ -175,8 +181,7 @@ function menuPrompt() {
 
       // });
       default:
-          console.log("Thanks for using the database!")
-    
+        console.log("Thanks for using the database!");
     }
   });
 }
@@ -188,11 +193,3 @@ function init() {
   //   });
 }
 init();
-// function displayEmployees(){
-//     db.query('SELECT * FROM employees', function (err, results) {
-//   console.log(results);
-// });
-
-// function updateEmployees(){
-// db.query('INSERT INTO role{}
-// });
