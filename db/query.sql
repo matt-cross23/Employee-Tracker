@@ -8,3 +8,7 @@ SELECT * FROM role
 UPDATE employee
 
 -- Joins
+SELECT * FROM employee
+INNER JOIN role
+ON employee.department_id = role.id
+

@@ -98,7 +98,7 @@ const updateEmployee = [
   },
   {
     type: "list",
-    message: "Which role do you want to assgin the selected emoloyee?",
+    message: "Which role do you want to assign the selected emoloyee?",
     choices: [""],
   },
 ];
@@ -107,24 +107,27 @@ function menuPrompt() {
     console.log(answers.menu);
     switch (answers.menu) {
       case "View All Employees":
-        db.query("SELECT * FROM employee", function (err, results) {
+        db.query(` SELECT employee.first_name, employee.last_name, role.title ,role.salary, departments.name, CONCAT(manager.first_name, ' ', manager.last_name) AS manager from employee_db.employee
+        left join role on employee.role_id = role.id
+        left join departments on role.department_id = departments.id
+        LEFT JOIN employee manager ON manager.id = employee.manager_id;`, function (err, results) {
           console.table(results);
-          console.log("________________")
-          inquirer.prompt(startQuestions);
+
+          init();
         });
         
         break;
       case "View All Roles":
         db.query("SELECT * FROM role", function (err, results) {
           console.table(results);
-          inquirer.prompt(startQuestions);
+          init();
         });
         
         break;
       case "View All Departments":
         db.query("SELECT * FROM departments;", function (err, results) {
           console.table(results);
-          inquirer.prompt(startQuestions);
+          init();
         });
         
         break;
@@ -145,7 +148,7 @@ function menuPrompt() {
               return;
             }
             console.log("success");
-            inquirer.prompt(startQuestions);
+            init();
           });
         });
         
@@ -161,7 +164,7 @@ function menuPrompt() {
               return;
             }
             console.log("success");
-            inquirer.prompt(startQuestions);
+            init();
           });
         });
         
@@ -182,7 +185,7 @@ function menuPrompt() {
               return;
             }
             console.log("success");
-            inquirer.prompt(startQuestions);
+            init();
           });
         });
         
@@ -190,20 +193,16 @@ function menuPrompt() {
         case "Update Employee Role":
             inquirer.prompt(updateEmployee).then((answers) =>{
       
+              init();
             });
        break;
-
-      // });
-      // case "Quit":
-      //   console.log("Thanks for using the database!");
+      default:
+        console.log("Thanks for using the database!");
     }
   });
 }
 
 function init() {
   menuPrompt();
-  //   inquirer.prompt(startQuestions).then((answers) => {
-  //     menuPrompt();
-  //   });
 }
 init();
