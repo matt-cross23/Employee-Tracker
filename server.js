@@ -6,6 +6,7 @@ const app = express();
 const table = require("console.table");
 app.use(express.urlencoded({ extended: false }));
 
+
 const db = mysql.createConnection(
   {
     host: "localhost",
@@ -81,25 +82,30 @@ const addEmployee = [
   },
   {
     type: "input",
-    message: "What is the employee's role?",
+    message: "What is the employee's role ID #?",
     name: "employeeRole",
   },
   {
     type: "input",
-    message: "Who is the employee's manager",
+    message: "What's the employee's manager ID #",
     name: "employeeManager",
   },
+  
 ];
 const updateEmployee = [
   {
     type: "list",
     message: "Which employee's role do you want to update?",
-    choices: [""],
+    choices: ()=>{
+      return db.query(`SELECT * FROM employee`)
+    },
+    name: "newName"
   },
   {
     type: "list",
     message: "Which role do you want to assign the selected emoloyee?",
-    choices: [""],
+    choices: [],
+    name: "newRole"
   },
 ];
 function menuPrompt() {
@@ -191,8 +197,8 @@ function menuPrompt() {
         
         break;
         case "Update Employee Role":
-            inquirer.prompt(updateEmployee).then((answers) =>{
-      
+           inquirer.prompt(updateEmployee).then((answers) =>{
+             console.log(answers)
               init();
             });
        break;

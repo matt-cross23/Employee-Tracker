@@ -2,7 +2,8 @@ USE employee_db;
 -- Read Tables
 SELECT * FROM role
 
--- Create columns
+-- Create rows
+INSERT INTO employee (first_name, last_name, role_id, manager_id) AT VALUES (?)
 
 -- Update Employee
 UPDATE employee
